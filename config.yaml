@@ -1,0 +1,6 @@
+app: # 基本配置信息
+  env: local # 环境
+  port: 8889 # 服务监听端口
+  app_name: ewa_admin_server # 应用名称
+  app_url: http://localhost # 应用域名
+  db_type: mysql # 使用的数据库
