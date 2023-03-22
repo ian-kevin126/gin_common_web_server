@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"time"
 
+	"go.uber.org/zap"
+
 	"github.com/fvbock/endless"
 	"github.com/gin-gonic/gin"
 )
@@ -24,10 +26,10 @@ func RunServer() {
 	address := fmt.Sprintf(":%d", global.EWA_CONFIG.App.Port)
 	s := initServer(address, r)
 
+	global.EWA_LOG.Info("server run success on ", zap.String("address", address))
+
 	// 保证文本顺序输出
 	time.Sleep(10 * time.Microsecond)
-
-	fmt.Println(`address`, address)
 
 	s.ListenAndServe()
 }
