@@ -45,3 +45,8 @@ pgsql: # PostgreSQL 配置
   max_open_conns: 100 # 最大连接数
   log_mode: error # 日志级别
   log_zap: false # 是否通过zap写日志文件
+
+redis: # redis 配置
+  db: 0
+  addr: 127.0.0.1:6379
+  password: ""

@@ -28,6 +28,7 @@ func main() {
 	global.EWA_DB = initialize.Gorm()
 
 	//	TODO：4.其他初始化
+	initialize.OtherInit()
 
 	//	TODO：5.启动服务
 	core.RunServer()
