@@ -43,7 +43,9 @@ func Redis() {
 }
 
 /**
-`client.Ping(context.Background()).Result()` 这一行代码的作用是使用 Redis 客户端对象 `client` 发送一个 ping 命令来测试
+#### 1、`client.Ping(context.Background()).Result()` 这行代码的作用？
+
+这一行代码的作用是使用 Redis 客户端对象 `client` 发送一个 ping 命令来测试
 与 Redis 服务器的连接是否正常，该命令实际上不会改变 Redis 数据库中的任何数据。
 
 在这个过程中，函数将向 Redis 服务器发送一个 Ping 请求，如果 Redis 服务器正在运行且已准备好处理请求，则它将回复 Pong。
@@ -57,4 +59,15 @@ func Redis() {
 
 因此，整行代码的含义是使用 Redis 客户端对象 `client` 对 Redis 服务器发送 Ping 命令，通过上下文对象 `context.Background()` 的
 配置和控制等待和取消执行延迟任务，然后将响应结果保存在变量 `pong` 中并检查是否存在错误，最后返回结果或者错误信息。
+
+
+
+#### 2、为什么会打印出：redis connect ping response:	{"pong": "PONG"}
+
+在 Redis 中，PONG（注意全大写）是一个特殊的字符串，它表示一个 Ping 命令的响应。Ping 命令是一种心跳机制，
+用于在客户端和服务器之间维持网络连接。当客户端发送一个 Ping 命令给 Redis 服务器时，如果连接没问题，服务器将返回一个 "PONG" 字符串作为响应。
+
+需要注意的是，Redis 对 PONG 的大小写非常敏感。如果你向 Redis 发送小写的 ping 命令，则 Redis 将返回小写的 pong 字符串。
+类似地，如果您发送了 "PoNg" 或 "pOnG" 这样的命令，Redis 将返回相应的响应。因此，在您的日志中看到 "PONG" 全部大写的形式，
+只是表明这个响应结果是由 Redis 服务器直接返回的，没有被代码处理或修改过。
 */

@@ -2,6 +2,10 @@ package initialize
 
 import (
 	"ewa_admin_server/global"
+	"ewa_admin_server/model/system"
+	"os"
+
+	"go.uber.org/zap"
 
 	"gorm.io/gorm"
 )
@@ -16,4 +20,19 @@ func Gorm() *gorm.DB {
 	default:
 		return GormMysql()
 	}
+}
+
+// RegisterDBTables 注册数据库表
+func RegisterDBTables(db *gorm.DB) {
+	err := db.AutoMigrate(
+		// 系统模块表
+		system.JwtBlacklist{}, // JWT 黑名单表
+	)
+
+	if err != nil {
+		global.EWA_LOG.Error("register table failed", zap.Error(err))
+		os.Exit(0)
+	}
+
+	global.EWA_LOG.Info("register table success")
 }

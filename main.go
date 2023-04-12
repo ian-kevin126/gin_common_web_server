@@ -4,6 +4,7 @@ import (
 	"ewa_admin_server/core"
 	"ewa_admin_server/global"
 	"ewa_admin_server/initialize"
+	"fmt"
 
 	"go.uber.org/zap"
 
@@ -15,21 +16,29 @@ const AppMode = "debug" // 运行环境，主要有三种：debug、test、relea
 func main() {
 	gin.SetMode(AppMode)
 
-	//	TODO：1.配置初始化
+	//	1.配置初始化
 	global.EWA_VIPER = core.InitializeViper()
 
-	//	TODO：2.日志
+	//	2.其他初始化
+	initialize.OtherInit()
+
+	//	3.日志
 	global.EWA_LOG = core.InitializeZap()
 	zap.ReplaceGlobals(global.EWA_LOG)
 
 	global.EWA_LOG.Info("server run success on ", zap.String("zap_log", "zap_log"))
 
-	//  TODO：3.数据库连接
+	//  4.数据库连接
 	global.EWA_DB = initialize.Gorm()
 
-	//	TODO：4.其他初始化
-	initialize.OtherInit()
+	if global.EWA_DB != nil {
+		initialize.RegisterDBTables(global.EWA_DB)
+		fmt.Println("====init table success====")
+		// 程序结束前关闭数据库链接
+		db, _ := global.EWA_DB.DB()
+		defer db.Close()
+	}
 
-	//	TODO：5.启动服务
+	//	5.启动服务
 	core.RunServer()
 }

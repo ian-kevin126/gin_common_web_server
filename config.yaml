@@ -4,6 +4,7 @@ app: # 基本配置信息
   app_name: ewa_admin_server # 应用名称
   app_url: http://localhost # 应用域名
   db_type: mysql # 使用的数据库 pgsql 或者 mysql
+  redis_enable: true # 是否使用 redis
 
 zap: # 日志配置
   level: info # 日志级别
@@ -50,3 +51,16 @@ redis: # redis 配置
   db: 0
   addr: 127.0.0.1:6379
   password: ""
+
+captcha:
+  key_long: 6
+  img_width: 240
+  img_height: 80
+  open_captcha: 0 # 0 代表一直开启，大于0代表限制次数
+  open_captcha_timeout: 3600 # open-captcha大于0时才生效
+
+jwt:
+  signing_key: f79386d4-531e-48d3-bab0-3dc348bb34f7
+  expires_time: 7d
+  buffer_time: 1d
+  issuer: east_white

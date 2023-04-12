@@ -3,6 +3,7 @@ package core
 import (
 	"ewa_admin_server/global"
 	"ewa_admin_server/initialize"
+	"ewa_admin_server/service/system"
 	"fmt"
 	"time"
 
@@ -17,8 +18,15 @@ type server interface {
 }
 
 func RunServer() {
-	// 初始化redis服务
-	initialize.Redis()
+	if global.EWA_CONFIG.App.RedisEnable {
+		// 初始化redis服务
+		initialize.Redis()
+	}
+
+	// 从db加载jwt数据
+	if global.EWA_DB != nil {
+		system.LoadAll()
+	}
 
 	Router := initialize.Routers()
 

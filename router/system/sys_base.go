@@ -1,6 +1,7 @@
 package system
 
 import (
+	v1 "ewa_admin_server/api/v1"
 	"ewa_admin_server/model/system"
 	"ewa_admin_server/utils"
 	"net/http"
@@ -12,11 +13,10 @@ type BaseRouter struct{}
 
 func (s *BaseRouter) InitBaseRouter(Router *gin.RouterGroup) (R gin.IRoutes) {
 	baseRouter := Router.Group("base")
+	baseApi := v1.ApiGroupApp.SystemApiGroup.BaseApi
 
 	{
-		baseRouter.POST("login", func(context *gin.Context) {
-			context.JSON(http.StatusOK, "ok")
-		})
+		baseRouter.POST("captcha", baseApi.Captcha)
 		baseRouter.POST("register", func(context *gin.Context) {
 			var form system.Register
 			if err := context.ShouldBindJSON(&form); err != nil {
