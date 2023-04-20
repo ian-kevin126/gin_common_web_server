@@ -3,6 +3,7 @@ package main
 import (
 	"ewa_admin_server/core"
 	"ewa_admin_server/global"
+	"ewa_admin_server/initialize"
 
 	"go.uber.org/zap"
 
@@ -24,8 +25,10 @@ func main() {
 	global.EWA_LOG.Info("server run success on ", zap.String("zap_log", "zap_log"))
 
 	//  TODO：3.数据库连接
+	global.EWA_DB = initialize.Gorm()
 
 	//	TODO：4.其他初始化
+	initialize.OtherInit()
 
 	//	TODO：5.启动服务
 	core.RunServer()

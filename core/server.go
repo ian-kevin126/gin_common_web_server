@@ -2,8 +2,8 @@ package core
 
 import (
 	"ewa_admin_server/global"
+	"ewa_admin_server/initialize"
 	"fmt"
-	"net/http"
 	"time"
 
 	"go.uber.org/zap"
@@ -17,21 +17,28 @@ type server interface {
 }
 
 func RunServer() {
-	r := gin.Default()
+	// 初始化redis服务
+	initialize.Redis()
 
-	r.GET("/ping", func(c *gin.Context) {
-		c.String(http.StatusOK, "pong")
-	})
+	Router := initialize.Routers()
 
 	address := fmt.Sprintf(":%d", global.EWA_CONFIG.App.Port)
-	s := initServer(address, r)
+	s := initServer(address, Router)
 
 	global.EWA_LOG.Info("server run success on ", zap.String("address", address))
 
 	// 保证文本顺序输出
 	time.Sleep(10 * time.Microsecond)
 
-	s.ListenAndServe()
+	fmt.Printf(`
+		欢迎使用 east_white_admin_common
+		当前版本:v0.0.1
+		加群方式:微信号：kevinliao126
+		默认自动化文档地址:http://127.0.0.1%s/swagger/index.html
+		默认前端文件运行地址:http://127.0.0.1:8089
+	`, address)
+
+	global.EWA_LOG.Error(s.ListenAndServe().Error())
 }
 
 /*
