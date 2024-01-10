@@ -29,7 +29,7 @@ mysql: # MySQL 配置
   engine: "" # 引擎，默认InnoDB
   max_idle_conns: 10 # 最大空闲连接数
   max_open_conns: 100 # 最大连接数
-  log_mode: error # 日志级别
+  log_mode: error # 日志级别，设置为debug，并且lag_zap设置为true时，可以在控制台打印当前执行的SQL语句
   log_zap: false # 是否通过zap写日志文件
 
 pgsql: # PostgreSQL 配置
