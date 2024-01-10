@@ -3,7 +3,8 @@ app: # 基本配置信息
   port: 8889 # 服务监听端口
   app_name: ewa_admin_server # 应用名称
   app_url: http://localhost # 应用域名
-  db_type: mysql # 使用的数据库
+  db_type: mysql # 使用的数据库 pgsql 或者 mysql
+  redis_enable: true # 是否使用 redis
 
 zap: # 日志配置
   level: info # 日志级别
@@ -15,3 +16,51 @@ zap: # 日志配置
   max_age: 0 # 日志留存时间
   show_line: true # 显示行
   log_in_console: true # 输出控制台
+
+mysql: # MySQL 配置
+  host: 127.0.0.1 # 服务器地址
+  port: "3306" # 端口
+  config: charset=utf8mb4&parseTime=True&loc=Local # 其他配置
+  db_name: east_white_admin_server # 数据库名称
+  username: "root" # 数据库用户名
+  password: "123456" # 数据库密码
+  prefix: "t_" # 全局表前缀，单独定义 TableName 则不生效
+  singular: false # 是否开启全局禁用复数，true表示不开启
+  engine: "" # 引擎，默认InnoDB
+  max_idle_conns: 10 # 最大空闲连接数
+  max_open_conns: 100 # 最大连接数
+  log_mode: error # 日志级别，设置为debug，并且lag_zap设置为true时，可以在控制台打印当前执行的SQL语句
+  log_zap: false # 是否通过zap写日志文件
+
+pgsql: # PostgreSQL 配置
+  host: "localhost" # 服务器地址
+  port: "5432" # 端口
+  config: "sslmode=disable TimeZone=Asia/Shanghai" # 其他配置
+  db_name: east_white_admin_server # 数据库名称
+  username: "ian_kevin" # 数据库用户名
+  password: "123456" # 数据库密码
+  prefix: "t_" # 全局表前缀，单独定义 TableName 则不生效
+  singular: false # 是否开启全局禁用复数，true表示不开启
+  engine: "" # 引擎，默认InnoDB
+  max_idle_conns: 10 # 最大空闲连接数
+  max_open_conns: 100 # 最大连接数
+  log_mode: error # 日志级别
+  log_zap: false # 是否通过zap写日志文件
+
+redis: # redis 配置
+  db: 0
+  addr: 127.0.0.1:6379
+  password: ""
+
+captcha:
+  key_long: 6
+  img_width: 240
+  img_height: 80
+  open_captcha: 0 # 0 代表一直开启，大于0代表限制次数
+  open_captcha_timeout: 3600 # open-captcha大于0时才生效
+
+jwt:
+  signing_key: f79386d4-531e-48d3-bab0-3dc348bb34f7
+  expires_time: 7d
+  buffer_time: 1d
+  issuer: east_white
